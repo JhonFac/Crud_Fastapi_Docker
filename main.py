@@ -3,6 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, status
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.auth import (
@@ -32,15 +33,23 @@ db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 # Seccion de autenticacion JWT
 
-# Crea un nuevo usuario en la base de datos.
+
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
-    creste_user_model = User(
-        username=create_user_request.username,
-        hashed_password=bcrypt_context.hash(create_user_request.password),
-    )
-    db.add(creste_user_model)
-    db.commit()
+    existing_user = db.query(User).filter(User.username == create_user_request.username).first()
+    if existing_user:
+        return {"message": "User already exists"}, status.HTTP_400_BAD_REQUEST
+
+    try:
+        new_user = User(
+            username=create_user_request.username,
+            hashed_password=bcrypt_context.hash(create_user_request.password),
+        )
+        db.add(new_user)
+        db.commit()
+        return {"message": "User created successfully"}
+    except IntegrityError:
+        return {"message": "Error creating user. Duplicate username."}, status.HTTP_400_BAD_REQUEST
 
 
 # Autentica al usuario y genera un token de acceso JWT.
