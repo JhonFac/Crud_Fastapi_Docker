@@ -1,0 +1,93 @@
+# FastAPI User Management
+
+## Introduction
+
+This is a FastAPI application for user management, including user registration, login, and CRUD operations for users and people. It uses JWT authentication for secure access.
+
+The application and database is deployed on railway
+https://railway.app/
+
+
+## Getting Started
+
+# Use the following endpoints for CRUD operations on people:
+
+- `POST /auth/`: Create a new user.
+  - To create a new user, send a POST request to this endpoint with user data in the request body in JSON format. If the user already exists, a 400 error with the message "User already exists" is returned. If the user is created successfully, a 201 status code with the message "User created successfully" is returned.
+
+- `GET /`: Get information of the current user.
+  - To get information of the current user, make a GET request to this endpoint. If the user is not authenticated, a 401 error with the message "Authentication fails" is returned. If the user is authenticated, a response with user details is returned.
+
+# Operaciones CRUD
+# Use the following endpoints for CRUD operations on people:
+
+- GET /people/: Obtiene una lista de todas las personas.
+- GET /person/{person_id}/: Obtiene detalles de una persona específica por ID.
+- POST /create-person/: Crea una nueva persona.
+- PUT /update-person/{person_id}/: Actualiza la información de una persona por ID.
+- DELETE /delete-person/{person_id}/: Elimina una persona por ID.
+
+
+### Prerequisites
+
+- Python 3.10
+- Docker (optional, for containerized deployment)
+
+###  START-UP COMMANDS  ###
+
+## Build Container and image in Docker 
+docker-compose -f docker-compose.yml build
+
+## Run image in Docker 
+docker-compose -f docker-compose.yml up
+
+
+## RUN PROJECT ONLY IN PYTHON
+
+
+# create virtual environment 
+    - virtualenv env_imagine
+
+# activate virtual environment 
+    - cd env_imagine\Scripts
+    - activate 
+    - cd ..
+    - cd ..
+
+# install requirements
+
+    - pip install requirements.txt
+
+# install dotenv - allows me to read environment variables
+
+    - python -m pip install python-dotenv 
+
+# Run API
+
+    - uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+
+# THE PROJECT WILL BE RUNNING AT THE URL
+
+    http://127.0.0.1:8000
+
+
+# documentation in swagger
+    http://127.0.0.1:8000/docs/
+
+
+###  OTHER COMMANDS  ###
+
+#  command to create requirements.txt  #
+    - pip freeze > requirements.txt
+
+#  command to upgrade pip  #
+    python.exe -m pip install --upgrade pip
+
+
+
+
+
+
+
+
