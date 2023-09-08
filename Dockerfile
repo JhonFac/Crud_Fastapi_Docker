@@ -24,4 +24,5 @@ RUN mkdir /code
 WORKDIR /code
 COPY . /code/
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "entrypoint.sh"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
