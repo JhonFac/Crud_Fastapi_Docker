@@ -8,14 +8,18 @@ The application and database is deployed on railway
 https://railway.app/
 
 
+In this url you can see all the deployed endpoints
+`https://crudfastapidocker-production.up.railway.app/docs`
+
+
 ## Getting Started
 
 # Use the following endpoints for CRUD operations on people:
 
-- `POST /auth/`: Create a new user.
+- POST /auth/: Create a new user.
   - To create a new user, send a POST request to this endpoint with user data in the request body in JSON format. If the user already exists, a 400 error with the message "User already exists" is returned. If the user is created successfully, a 201 status code with the message "User created successfully" is returned.
 
-- `GET /`: Get information of the current user.
+- GET /: Get information of the current user.
   - To get information of the current user, make a GET request to this endpoint. If the user is not authenticated, a 401 error with the message "Authentication fails" is returned. If the user is authenticated, a response with user details is returned.
 
 # Operaciones CRUD
