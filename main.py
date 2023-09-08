@@ -34,11 +34,12 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 # Seccion de autenticacion JWT
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/")
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
     existing_user = db.query(User).filter(User.username == create_user_request.username).first()
     if existing_user:
-        return {"message": "User already exists"}, status.HTTP_400_BAD_REQUEST
+        # return {"message": "User already exists"}, status.HTTP_400_BAD_REQUEST
+        raise HTTPException(status_code=400, detail="User already exists")
 
     try:
         new_user = User(
@@ -47,9 +48,9 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
         )
         db.add(new_user)
         db.commit()
-        return {"message": "User created successfully"}
+        raise HTTPException(status_code=201, detail="User created successfully")
     except IntegrityError:
-        return {"message": "Error creating user. Duplicate username."}, status.HTTP_400_BAD_REQUEST
+        raise HTTPException(status_code=400, detail="Error creating user. Duplicate username.")
 
 
 # Autentica al usuario y genera un token de acceso JWT.
